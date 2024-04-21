@@ -1,5 +1,7 @@
+import "./user.css";
+
 export const metadata = {
-  title: "ValleyOb Gyn Admin",
+  title: "ValleyOb Gyn User",
   description: "",
 };
 

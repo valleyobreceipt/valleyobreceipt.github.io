@@ -1,0 +1,18 @@
+.user-backup-sec .user-popup-btns .custom-btn {
+  padding: 10px 20px;
+}
+
+@media screen and (max-width: 1366px) {
+  .user-backup-table-wrapp {
+    margin-left: 280px;
+  }
+}
+
+.user-backup-table-wrapp .custom-table th,
+.user-backup-table-wrapp .custom-table td {
+  min-width: 170px;
+}
+
+.user-backup-table-wrapp .custom-table th:nth-child(3) {
+  min-width: 300px;
+}

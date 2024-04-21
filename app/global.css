@@ -1,5 +1,9 @@
 @charset "UTF-8";
-.search-dv #search_form, .search-dv, .custom-modal .modal-footer, .custom-modal .contact-detal-dv .info-list li, .custom-modal .modal-header {
+.search-dv #search_form,
+.search-dv,
+.custom-modal .modal-footer,
+.custom-modal .contact-detal-dv .info-list li,
+.custom-modal .modal-header {
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flex;
@@ -13,7 +17,12 @@ body {
   font-family: "Raleway", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: 20px;
   font-weight: normal;
 }
@@ -29,7 +38,8 @@ a {
   color: #000;
   font-weight: 500;
 }
-a:hover, a:focus {
+a:hover,
+a:focus {
   text-decoration: none;
 }
 
@@ -60,7 +70,7 @@ button {
 .row-5 {
   margin: 0 -5px;
 }
-.row-5 [class*=col-] {
+.row-5 [class*="col-"] {
   padding: 0 5px;
 }
 
@@ -72,7 +82,8 @@ button {
   font-size: 14px;
   outline: none;
 }
-.form-control:hover, .form-control:focus {
+.form-control:hover,
+.form-control:focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-shadow: none;
@@ -372,7 +383,8 @@ button {
   border-radius: 100%;
   margin-right: 1rem;
 }
-.search-dv #search_form button:hover, .search-dv #search_form button:focus {
+.search-dv #search_form button:hover,
+.search-dv #search_form button:focus {
   -webkit-box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);
   -ms-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);
@@ -384,7 +396,8 @@ button {
   width: calc(100% - 60px);
   height: 50px;
 }
-.search-dv #search_form input:hover, .search-dv #search_form input:focus {
+.search-dv #search_form input:hover,
+.search-dv #search_form input:focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   -ms-shadow: none;
@@ -394,10 +407,12 @@ button {
 .search-dv .icons-divs a {
   color: #222222;
 }
-.search-dv .icons-divs a:hover, .search-dv .icons-divs a.active {
+.search-dv .icons-divs a:hover,
+.search-dv .icons-divs a.active {
   color: #004a7f;
 }
-.search-dv .icons-divs .ic-dv img, .search-dv .icons-divs .ic-dv span {
+.search-dv .icons-divs .ic-dv img,
+.search-dv .icons-divs .ic-dv span {
   vertical-align: middle;
 }
 .search-dv .icons-divs .ic-dv img {
@@ -505,7 +520,7 @@ button {
   display: flex;
   column-gap: 10px;
 }
-.input-checkbox input[type=checkbox] {
+.input-checkbox input[type="checkbox"] {
   flex: none;
   height: 16px;
   width: 16px;
@@ -522,7 +537,7 @@ button {
   display: flex;
   column-gap: 10px;
 }
-.input-radio input[type=radio] {
+.input-radio input[type="radio"] {
   flex: none;
   height: 20px;
   width: 20px;
@@ -655,14 +670,16 @@ button {
 
 @media screen and (max-width: 1366px) {
   .user-backup-table-wrapp {
-  margin-left: 80px;
-}
+    margin-left: 80px;
+  }
 }
 
-.user-backup-table-wrapp .custom-table th, .user-backup-table-wrapp .custom-table td {
+.user-backup-table-wrapp .custom-table th,
+.user-backup-table-wrapp .custom-table td {
   min-width: 200px;
 }
-.user-backup-table-wrapp .custom-table th:first-child, .user-backup-table-wrapp .custom-table td:first-child {
+.user-backup-table-wrapp .custom-table th:first-child,
+.user-backup-table-wrapp .custom-table td:first-child {
   padding-left: 0;
 }
 .user-backup-table-wrapp .tb-btn {
@@ -670,7 +687,8 @@ button {
   padding: 0;
   font-size: 18px;
 }
-.user-backup-table-wrapp .custom-admin-table th:first-child, .user-backup-table-wrapp .custom-admin-table td:first-child {
+.user-backup-table-wrapp .custom-admin-table th:first-child,
+.user-backup-table-wrapp .custom-admin-table td:first-child {
   min-width: 300px;
 }
 
@@ -689,4 +707,3 @@ button {
 .popSubmit {
   width: 100%;
 }
-

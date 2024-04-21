@@ -1,5 +1,6 @@
 import { Raleway } from "next/font/google";
 import "./bootstrap.min.css";
+import "./global.css";
 
 const font = Raleway({ subsets: ["latin"] });
 
