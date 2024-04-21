@@ -31,7 +31,7 @@ export default function History() {
             </div>
             <ul className="navbar-nav">
               <li>
-                <Link href="/amdin">
+                <Link href="/admin">
                   <span className="txt">Home</span>
                 </Link>
               </li>

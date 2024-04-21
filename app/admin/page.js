@@ -31,7 +31,7 @@ export default function Home() {
             </div>
             <ul className="navbar-nav">
               <li>
-                <Link href="/amdin" className="active">
+                <Link href="/admin" className="active">
                   <span className="txt">Home</span>
                 </Link>
               </li>
