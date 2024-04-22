@@ -1,3 +1,4 @@
+import CustomPassWordInput from "@/lib/custom-password";
 import Link from "next/link";
 
 export default function Login() {
@@ -36,8 +37,7 @@ export default function Login() {
                   <div className="row">
                     <div className="col-sm-12">
                       <div className="input-bx pass-bx">
-                        <input
-                          type="password"
+                        <CustomPassWordInput
                           name="password"
                           id="password"
                           className="form-control"
