@@ -3,6 +3,7 @@
 import gasFetch from "@/gasFetch";
 import CustomPassWordInput from "@/lib/custom-password";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginForm({ type = "admin" }) {
@@ -10,6 +11,8 @@ export default function LoginForm({ type = "admin" }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -30,27 +33,34 @@ export default function LoginForm({ type = "admin" }) {
     }
 
     try {
-      let response = await gasFetch(`/${type}/login`, {
+      let response = await gasFetch(`/login`, {
         username,
         password,
+        type,
       });
 
-      let data = await response.json();
+      let responseJSON = await response.json();
 
-      if (data.error) {
-        setError(data.error);
+      if (responseJSON.error) {
+        setError(responseJSON.error);
         setLoading(false);
         return;
       }
 
-      if (data.data) {
+      if (responseJSON.data) {
         localStorage.setItem(
-          "tokenInfo",
+          `${type}TokenInfo`,
           JSON.stringify({
-            token: data.token,
+            token: responseJSON.data.token,
             expire: new Date().getTime() + 1000 * 60 * 60 * 6,
           })
         );
+
+        if (type === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/user");
+        }
       }
     } catch (error) {
       setError("An error occurred. Please try again");
