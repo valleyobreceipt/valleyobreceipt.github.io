@@ -33,10 +33,16 @@ export default function LoginForm({ type = "admin" }) {
     }
 
     try {
+      let loginIp =
+        type == "user"
+          ? await (await fetch("https://ip.39vz8-ip.workers.dev/")).text()
+          : "";
+
       let response = await gasFetch(`/login`, {
         username,
         password,
         type,
+        loginIp,
       });
 
       let responseJSON = await response.json();
