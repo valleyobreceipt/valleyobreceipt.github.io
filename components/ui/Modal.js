@@ -25,12 +25,14 @@ export default function Modal({
       }, 200);
 
       window.addEventListener("click", (e) => {
-        if (e.target != modalBody.current) closeHandler();
+        if (e.target == ref.current) closeHandler();
       });
     }
-  }, [opened]);
+  }, [ref, backdrop, modalBody, opened]);
 
   const closeHandler = () => {
+    if (!ref) return;
+
     ref.current.classList.remove("show");
     backdrop.current.classList.remove("show");
 
