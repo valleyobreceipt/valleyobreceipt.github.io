@@ -66,7 +66,9 @@ const fetcher = ([apiRoute, body]) => {
 };
 
 export function useGASFetch(apiRoute, body) {
-  const { data, error, isLoading } = useSWR([apiRoute, body], fetcher);
+  const { data, error, isLoading } = useSWR([apiRoute, body], fetcher, {
+    revalidateOnFocus: false,
+  });
 
   return {
     data,

@@ -63,7 +63,7 @@ export default function AddUser() {
           loading: false,
         };
       });
-      mutate("/admin/get-users");
+      mutate();
     }
   }
 
