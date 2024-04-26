@@ -1,3 +1,5 @@
+import useSWR from "swr";
+
 export default function gasFetch(apiRoute, body = {}) {
   const productionURL =
     "https://script.google.com/macros/s/AKfycbwk4uZviJmPHK-Plkfy0B6asc8hHKkMYh-ZE71gF76pJzicxpF7qKUsOVjb5XwekKRYQg/exec";
@@ -38,4 +40,32 @@ export default function gasFetch(apiRoute, body = {}) {
     `${url}${token ? `&token=${token}` : ""}&route=${apiRoute}`,
     options
   );
+}
+
+const fetcher = ([apiRoute, body]) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let response = await gasFetch(apiRoute, body);
+
+      let reponseJSON = await response.json();
+
+      if (reponseJSON.status) {
+        resolve(reponseJSON.data);
+      } else {
+        reject(reponseJSON.error);
+      }
+    } catch (err) {
+      reject(err.message);
+    }
+  });
+};
+
+export function useGASFetch(apiRoute, body) {
+  const { data, error, isLoading } = useSWR([apiRoute, body], fetcher);
+
+  return {
+    data,
+    isLoading,
+    error: error,
+  };
 }
