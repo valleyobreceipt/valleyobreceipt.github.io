@@ -1,4 +1,4 @@
-export default function gasFetch(apiRoute, body = {}, token) {
+export default function gasFetch(apiRoute, body = {}) {
   const productionURL =
     "https://script.google.com/macros/s/AKfycbwk4uZviJmPHK-Plkfy0B6asc8hHKkMYh-ZE71gF76pJzicxpF7qKUsOVjb5XwekKRYQg/exec";
 
@@ -9,6 +9,23 @@ export default function gasFetch(apiRoute, body = {}, token) {
     process.env.NODE_ENV === "production"
       ? `${productionURL}?insertLogs=true`
       : `${devURL}?debug=1`;
+
+  let token = "";
+
+  if (!apiRoute.includes("/login")) {
+    let type = apiRoute.split("/")[1];
+
+    let tokenInfo = localStorage.getItem(`${type}TokenInfo`);
+
+    if (!tokenInfo) return Promise.reject("Token not found");
+
+    let tokenInfoJSON = JSON.parse(tokenInfo);
+
+    if (tokenInfoJSON.expire < new Date().getTime())
+      return Promise.reject("Token expired. Please reload and login again");
+
+    token = tokenInfoJSON.token;
+  }
 
   // route
 

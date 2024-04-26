@@ -707,3 +707,14 @@ button {
 .popSubmit {
   width: 100%;
 }
+.inline-status {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 15px;
+}
+.inline-status.error {
+  color: red;
+}
+.inline-status.success {
+  color: green;
+}

@@ -1,17 +1,81 @@
+"use client";
+
 import Modal from "@/components/ui/Modal";
+import gasFetch from "@/gasFetch";
+import { useState } from "react";
 
 export default function AddUser() {
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+    history: 0,
+    ip: "",
+    loading: false,
+    error: "",
+    success: "",
+  });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (state.loading) return;
+
+    setState((state) => {
+      return { ...state, loading: true, error: "", success: "" };
+    });
+
+    if (!state.email || !state.password) {
+      return setState((state) => {
+        return {
+          ...state,
+          error: "Email, Password is required",
+        };
+      });
+    }
+
+    let response = await gasFetch(`/admin/add-user`, {
+      email: state.email,
+      password: state.password,
+      history: state.history,
+      ip: state.ip,
+    });
+
+    let responseJSON = await response.json();
+
+    if (responseJSON.error) {
+      setState((state) => {
+        return { ...state, error: responseJSON.error, loading: false };
+      });
+      return;
+    } else {
+      setState((state) => {
+        return {
+          ...state,
+          email: "",
+          password: "",
+          history: 0,
+          ip: "",
+          error: "",
+          success: "User added successfully",
+          loading: false,
+        };
+      });
+    }
+  }
+
   return (
     <Modal opened closeRoute="/admin">
       <h3 className="modal-title text-center">Add New User</h3>
       <section className="custom-form-sec">
-        <form className="icon-form" name="addUserForm">
+        <form className="icon-form" onSubmit={handleSubmit}>
           <div className="mdl-input-bx">
             <label>Email</label>
             <input
               type="text"
               name=""
-              id="addUserEmail"
+              value={state.email}
+              onChange={(e) => setState({ ...state, email: e.target.value })}
+              disabled={state.loading}
               className="form-control"
               autoComplete="off"
               required=""
@@ -24,7 +88,9 @@ export default function AddUser() {
             <input
               type="text"
               name=""
-              id="addUserPass"
+              value={state.password}
+              onChange={(e) => setState({ ...state, password: e.target.value })}
+              disabled={state.loading}
               className="form-control"
               autoComplete="off"
               required=""
@@ -37,6 +103,9 @@ export default function AddUser() {
             <select
               name=""
               required=""
+              value={state.history}
+              onChange={(e) => setState({ ...state, history: e.target.value })}
+              disabled={state.loading}
               className="form-control"
               id="addUserHistory"
             >
@@ -52,45 +121,26 @@ export default function AddUser() {
             <label>IP Address (Optional)</label>
             <textarea
               name=""
-              id="addUserIP"
+              value={state.ip}
+              onChange={(e) => setState({ ...state, ip: e.target.value })}
+              disabled={state.loading}
               className="form-control"
               autoComplete="off"
               placeholder="Enter IP Address"
               spellCheck="false"
-              defaultValue={""}
             />
           </div>
           <button
+            disabled={state.loading}
             type="submit"
-            id="addUserBtn"
             className="custom-btn popSubmit"
           >
-            Add
+            {state.loading ? "Please wait..." : "Add User"}
           </button>
-          <div
-            style={{
-              color: "red",
-              textAlign: "center",
-              fontSize: 14,
-              marginTop: 15,
-              display: "none",
-            }}
-            id="adduser-error"
-          >
-            Please try again.
-          </div>
-          <div
-            style={{
-              color: "green",
-              textAlign: "center",
-              fontSize: 14,
-              marginTop: 15,
-              display: "none",
-            }}
-            id="adduser-success"
-          >
-            Success!
-          </div>
+          {state.error && <p className="inline-status error">{state.error}</p>}
+          {state.success && (
+            <p className="inline-status success">{state.success}</p>
+          )}
         </form>
       </section>
     </Modal>
