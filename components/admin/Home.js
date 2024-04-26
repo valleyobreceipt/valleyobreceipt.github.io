@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default function Home() {
   const { data, isLoading, error } = useGASFetch("/admin/get-users", {});
+
   return (
     <section id="wrapper">
       <Header />

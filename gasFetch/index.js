@@ -9,7 +9,7 @@ export default function gasFetch(apiRoute, body = {}) {
 
   const url =
     process.env.NODE_ENV === "production"
-      ? `${productionURL}?insertLogs=true`
+      ? `${devURL}?insertLogs=true`
       : `${devURL}?debug=1`;
 
   let token = "";
@@ -19,12 +19,17 @@ export default function gasFetch(apiRoute, body = {}) {
 
     let tokenInfo = localStorage.getItem(`${type}TokenInfo`);
 
-    if (!tokenInfo) return Promise.reject("Token not found");
+    if (!tokenInfo) {
+      window.location = `/${type}/login`;
+      return Promise.reject("Token not found. Please login again.");
+    }
 
     let tokenInfoJSON = JSON.parse(tokenInfo);
 
-    if (tokenInfoJSON.expire < new Date().getTime())
-      return Promise.reject("Token expired. Please reload and login again");
+    if (tokenInfoJSON.expire < new Date().getTime()) {
+      window.location = `/${type}/login`;
+      return Promise.reject("Token expired. Please login again.");
+    }
 
     token = tokenInfoJSON.token;
   }
@@ -55,7 +60,7 @@ const fetcher = ([apiRoute, body]) => {
         reject(reponseJSON.error);
       }
     } catch (err) {
-      reject(err.message);
+      reject(err.message ?? err);
     }
   });
 };
