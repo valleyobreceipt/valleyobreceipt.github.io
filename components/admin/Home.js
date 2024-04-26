@@ -51,7 +51,7 @@ export default function Home() {
                             })}
                           </td>
                           <td>
-                            <Link href={`/admin/history/${id}`}>
+                            <Link href={`/admin/history/?uid=${id}`}>
                               <button className="tb-btn delete">
                                 <span className="icon">
                                   <img
@@ -63,7 +63,7 @@ export default function Home() {
                             </Link>
                           </td>
                           <td>
-                            <Link href={`/admin/delete-user/${id}`}>
+                            <Link href={`/admin/delete-user/?uid=${id}`}>
                               <button className="tb-btn delete">
                                 <span className="icon">
                                   <img
