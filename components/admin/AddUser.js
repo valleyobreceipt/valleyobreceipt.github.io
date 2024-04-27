@@ -3,8 +3,10 @@
 import Modal from "@/components/ui/Modal";
 import gasFetch from "@/gasFetch";
 import { useState } from "react";
+import { useSWRConfig } from "swr";
 
 export default function AddUser() {
+  const { mutate } = useSWRConfig();
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -60,6 +62,7 @@ export default function AddUser() {
           loading: false,
         };
       });
+      mutate();
     }
   }
 
