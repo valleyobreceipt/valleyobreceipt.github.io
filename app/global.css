@@ -254,6 +254,12 @@ button {
   background-color: #fff;
   margin-bottom: 50px;
 }
+@media screen and (max-width: 600px) {
+  .drop-zone {
+    height: max-content;
+    min-height: 100%;
+  }
+}
 .drop-zone .drop-zone__prompt {
   width: 100%;
 }
