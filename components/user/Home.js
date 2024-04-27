@@ -30,9 +30,36 @@ export default function Home() {
     lastFourDigit: "",
   });
 
+  function setCaretPosition(e, pos) {
+    // Modern browsers
+    if (e.setSelectionRange) {
+      e.focus();
+      e.setSelectionRange(pos, pos);
+
+      // IE8 and below
+    } else if (e.createTextRange) {
+      var range = e.createTextRange();
+      range.collapse(true);
+      range.moveEnd("character", pos);
+      range.moveStart("character", pos);
+      range.select();
+    }
+  }
+
   const preventInput = (e) => {
-    if (e.inputType == "insertText" || e.inputType == "insertCompositionText") {
-      e.preventDefault();
+    if (
+      e.nativeEvent.inputType == "insertText" ||
+      e.nativeEvent.inputType == "insertCompositionText"
+    ) {
+      let start =
+        e.nativeEvent.target.selectionStart - e.nativeEvent.data.length;
+      e.nativeEvent.target.value =
+        e.nativeEvent.target.value.substr(
+          0,
+          e.nativeEvent.target.selectionStart - e.nativeEvent.data.length
+        ) +
+        e.nativeEvent.target.value.substr(e.nativeEvent.target.selectionStart);
+      setCaretPosition(e.nativeEvent.target, start);
     }
   };
 
@@ -49,7 +76,7 @@ export default function Home() {
         <main className="site-main">
           <section className="common-sec">
             <div className="container-fluid">
-              <form action="" id="secure-message-form">
+              <form onSubmit={handleSubmit} id="secure-message-form">
                 <div className="row">
                   <div className="col-md-5">
                     <div className="user-send-email-wrapp">
@@ -74,7 +101,7 @@ export default function Home() {
                           onInput={preventInput}
                           className="form-control"
                           autoComplete="off"
-                          required=""
+                          required
                           placeholder="Copy & paste only"
                         />
                       </div>
@@ -89,7 +116,7 @@ export default function Home() {
                           onInput={preventInput}
                           className="form-control"
                           autoComplete="off"
-                          required=""
+                          required
                           placeholder="Copy & paste only"
                         />
                       </div>
@@ -104,7 +131,7 @@ export default function Home() {
                           onInput={preventInput}
                           className="form-control"
                           autoComplete="off"
-                          required=""
+                          required
                           placeholder="Copy & paste only"
                         />
                       </div>
@@ -118,7 +145,7 @@ export default function Home() {
                           }
                           className="form-control"
                           autoComplete="off"
-                          required=""
+                          required
                           placeholder="Enter Amount"
                         />
                       </div>
@@ -132,7 +159,7 @@ export default function Home() {
                           }
                           className="form-control"
                           autoComplete="off"
-                          required=""
+                          required
                           placeholder="Enter Initial"
                         />
                       </div>
@@ -187,11 +214,20 @@ export default function Home() {
                           checked={state.paymentMethod === "Cash"}
                           onChange={(e) => {
                             if (e.target.checked) {
-                              setState({ ...state, paymentMethod: "Cash" });
+                              setState({
+                                ...state,
+                                paymentMethod: "Cash",
+                                lastFourDigit: "",
+                              });
                             } else {
-                              setState({ ...state, paymentMethod: "" });
+                              setState({
+                                ...state,
+                                paymentMethod: "",
+                                lastFourDigit: "",
+                              });
                             }
                           }}
+                          required={state.paymentMethod === ""}
                           id="CashID"
                         />
                         <label htmlFor="CashID">Cash</label>
@@ -205,11 +241,17 @@ export default function Home() {
                               setState({
                                 ...state,
                                 paymentMethod: "Debit/Credit Card",
+                                lastFourDigit: "",
                               });
                             } else {
-                              setState({ ...state, paymentMethod: "" });
+                              setState({
+                                ...state,
+                                paymentMethod: "",
+                                lastFourDigit: "",
+                              });
                             }
                           }}
+                          required={state.paymentMethod === ""}
                           id="CardID"
                         />
                         <label htmlFor="CardID">Debit/Credit Card</label>
@@ -225,7 +267,7 @@ export default function Home() {
                                 lastFourDigit: e.target.value,
                               })
                             }
-                            required=""
+                            required
                             placeholder="# Last Four Digit"
                           />
                         )}
@@ -239,11 +281,17 @@ export default function Home() {
                               setState({
                                 ...state,
                                 paymentMethod: "Check",
+                                lastFourDigit: "",
                               });
                             } else {
-                              setState({ ...state, paymentMethod: "" });
+                              setState({
+                                ...state,
+                                paymentMethod: "",
+                                lastFourDigit: "",
+                              });
                             }
                           }}
+                          required={state.paymentMethod === ""}
                           id="CheckID"
                         />
                         <label htmlFor="CheckID">Check</label>
@@ -259,7 +307,7 @@ export default function Home() {
                                 lastFourDigit: e.target.value,
                               })
                             }
-                            required=""
+                            required
                             placeholder="# Check Number"
                           />
                         )}
