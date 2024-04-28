@@ -35,10 +35,7 @@ export default function Header() {
           </div>
           <ul className="navbar-nav">
             <li>
-              <Link
-                href="/admin"
-                className={path.includes("/admin") ? "active" : ""}
-              >
+              <Link href="/admin" className={path == "/admin" ? "active" : ""}>
                 <span className="txt">Home</span>
               </Link>
             </li>
