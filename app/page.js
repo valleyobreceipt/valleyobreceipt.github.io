@@ -5,7 +5,7 @@ import Link from "next/link";
 import Modal from "@/components/ui/Modal";
 import gasFetch from "@/gasFetch";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import "./client.css";
 import "./font-awesome.min.css";
 
@@ -96,7 +96,7 @@ export default function Home() {
   }
 
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <section id="wrapper">
         <header className="site-header">
           <div className="container-fluid">
@@ -240,6 +240,6 @@ export default function Home() {
           </div>
         </Modal>
       )}
-    </>
+    </Suspense>
   );
 }
