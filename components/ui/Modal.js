@@ -31,6 +31,7 @@ export default function Modal({
   }, [ref, backdrop, modalBody, opened]);
 
   const closeHandler = () => {
+    if (hideCloseBtn) return;
     if (!ref) return;
 
     ref.current.classList.remove("show");
