@@ -1,3 +1,4 @@
+import AuthWrapper from "@/components/AuthWrapper";
 import "./user.css";
 
 export const metadata = {
@@ -6,5 +7,5 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return <>{children}</>;
+  return <AuthWrapper type="user">{children}</AuthWrapper>;
 }

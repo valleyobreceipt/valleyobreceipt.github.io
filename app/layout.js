@@ -1,3 +1,4 @@
+import Loading from "@/components/Loading";
 import { Raleway } from "next/font/google";
 import { Suspense } from "react";
 import "./bootstrap.min.css";
@@ -14,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={font.className}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <Suspense fallback={<Loading />}>{children}</Suspense>
       </body>
     </html>
   );

@@ -5,8 +5,11 @@ import CustomPassWordInput from "@/lib/custom-password";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSWRConfig } from "swr";
 
 export default function LoginForm({ type = "admin" }) {
+  const { mutate } = useSWRConfig();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -61,6 +64,8 @@ export default function LoginForm({ type = "admin" }) {
             expire: new Date().getTime() + 1000 * 60 * 60 * 6,
           })
         );
+
+        mutate(type, true);
 
         if (type === "admin") {
           router.push("/admin");

@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import Header from "@/components/admin/Header";
 import Pagination from "@/components/ui/Pagination";
 import UserHeader from "@/components/user/Header";
@@ -50,7 +51,7 @@ export default function History({ type = "admin" }) {
         <section className="common-sec user-backup-sec">
           <div className="container-fluid">
             <div className="user-backup-table-wrapp">
-              {isLoading && <p>Loading...</p>}
+              {isLoading && <Loading />}
 
               {error && !isLoading && <p>{error}</p>}
               {finalData && (
@@ -163,7 +164,7 @@ export default function History({ type = "admin" }) {
                   </table>
 
                   <Pagination
-                    totalEntries={finalData_.length}
+                    totalEntries={finalData.length}
                     currentPage={page}
                     perPage={perPage}
                   />

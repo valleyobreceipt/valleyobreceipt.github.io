@@ -76,3 +76,45 @@ export function useGASFetch(apiRoute, body) {
     error: error,
   };
 }
+
+const authChecker = (type) => {
+  let tokenInfo = localStorage.getItem(`${type}TokenInfo`);
+
+  if (!tokenInfo) {
+    return false;
+  }
+
+  let tokenInfoJSON = JSON.parse(tokenInfo);
+
+  if (tokenInfoJSON.expire < new Date().getTime()) {
+    return false;
+  }
+
+  return true;
+};
+
+export const useAuthCheck = (type) => {
+  const { data, error, isLoading, mutate } = useSWR(type, authChecker);
+
+  return {
+    data,
+    isLoading,
+    error: error,
+  };
+};
+
+const authRemover = (type) => {
+  localStorage.removeItem(`${type}TokenInfo`);
+
+  return true;
+};
+
+export const useLogOut = (type) => {
+  const { data, error, isLoading } = useSWR(type, authRemover);
+
+  return {
+    data,
+    isLoading,
+    error: error,
+  };
+};
