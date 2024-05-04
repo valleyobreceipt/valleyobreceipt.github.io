@@ -101,6 +101,14 @@ button {
   padding: 15px;
 }
 
+.page-link {
+  color: #004a7f;
+}
+
+.page-link:focus {
+  box-shadow: none;
+}
+
 .mdl-input-bx {
   margin-bottom: 30px;
 }

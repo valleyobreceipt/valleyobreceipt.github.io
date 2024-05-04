@@ -1,5 +1,6 @@
 "use client";
 
+import Search from "@/components/Search";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,26 +16,7 @@ export default function Header() {
               <img src="/asset/img/logo.svg" alt="Logo" />
             </Link>
           </div>
-          {path.includes("/user/history") && (
-            <div className="search-dv">
-              <form action="" id="search_form">
-                <button type="submit">
-                  <img src="/asset/img/search-icon.png" alt="Search" />
-                </button>
-                <input
-                  type="text"
-                  name="search"
-                  id="search"
-                  placeholder="Search"
-                />
-              </form>
-              <span className="ic-dv arrow-ic">
-                <a href="#">
-                  <img src="/asset/img/up-dwn-arr.png" alt="Icon" />
-                </a>
-              </span>
-            </div>
-          )}
+          {path.includes("/user/history") && <Search />}
           <ul className="navbar-nav">
             <li>
               <Link href="/user" className={path == "/user" ? "active" : ""}>
