@@ -25,8 +25,6 @@ export default function Home() {
         return true;
       }
 
-      let finalReceiptId = `#${receiptId}${receivedBy}`;
-
       return email?.toLowerCase()?.includes(query.toLowerCase());
     }) || null;
 
