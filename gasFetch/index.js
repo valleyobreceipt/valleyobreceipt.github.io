@@ -14,7 +14,11 @@ export default function gasFetch(apiRoute, body = {}) {
 
   let token = "";
 
-  if (!apiRoute.includes("/login") && !apiRoute.includes("/verify")) {
+  if (
+    !apiRoute.includes("/login") &&
+    !apiRoute.includes("/verify") &&
+    !apiRoute.includes("/forget-password")
+  ) {
     let type = apiRoute.split("/")[1];
 
     let tokenInfo = localStorage.getItem(`${type}TokenInfo`);

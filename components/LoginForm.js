@@ -118,7 +118,7 @@ export default function LoginForm({ type = "admin" }) {
           </div>
           {type === "admin" && (
             <div className="text-right my-1">
-              <Link href="/admin/forgetPassword">Forgot Password</Link>
+              <Link href="/admin/forget-password">Forgot Password</Link>
             </div>
           )}
         </div>

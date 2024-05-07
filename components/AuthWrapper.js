@@ -12,7 +12,10 @@ export default function AuthWrapper({ type, children }) {
 
   let pathname = usePathname();
 
-  if (pathname.includes("login")) return <SWRConfig>{children}</SWRConfig>;
+  if (pathname.includes("login") || pathname.includes("forget-password"))
+    return <SWRConfig>{children}</SWRConfig>;
+
+  console.log(isAuthorized);
 
   if (isLoading) return <Loading>{children}</Loading>;
 
