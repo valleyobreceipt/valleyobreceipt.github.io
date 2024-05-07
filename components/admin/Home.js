@@ -58,6 +58,9 @@ export default function Home() {
                 <Link href="/admin/backup">
                   <button className="custom-btn">Backup</button>
                 </Link>
+                <Link href="/admin/change-password">
+                  <button className="custom-btn">Change Password</button>
+                </Link>
               </div>
 
               {isLoading && <Loading />}
@@ -89,7 +92,7 @@ export default function Home() {
                                 })}
                               </td>
                               <td>
-                                <Link href={`/admin/history/?uid=${id}`}>
+                                <Link href={`/admin/history/users?uid=${id}`}>
                                   <button className="tb-btn delete">
                                     <span className="icon">
                                       <img
