@@ -3,7 +3,7 @@
 import BackUp from "@/components/admin/Backup";
 import Home from "@/components/admin/Home";
 
-export default function AddUserPage() {
+export default function BackupPage() {
   return (
     <>
       <Home />
