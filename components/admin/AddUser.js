@@ -30,6 +30,7 @@ export default function AddUser() {
       return setState((state) => {
         return {
           ...state,
+          loading: false,
           error: "Email, Password is required",
         };
       });
