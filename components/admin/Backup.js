@@ -32,35 +32,41 @@ export default function BackUp() {
       return { ...state, loading: true, error: "", success: "" };
     });
 
-    if (!state.email) {
-      return setState((state) => {
-        return {
-          ...state,
-          error: "Backup email is required",
-        };
+    // if (!state.email) {
+    //   return setState((state) => {
+    //     return {
+    //       ...state,
+    //       error: "Backup email is required",
+    //     };
+    //   });
+    // }
+
+    try {
+      let response = await gasFetch(`/admin/set-backup`, {
+        email: state.email || "",
       });
-    }
 
-    let response = await gasFetch(`/admin/set-backup`, {
-      email: state.email,
-    });
+      let responseJSON = await response.json();
 
-    let responseJSON = await response.json();
-
-    if (responseJSON.error) {
+      if (responseJSON.error) {
+        setState((state) => {
+          return { ...state, error: responseJSON.error, loading: false };
+        });
+        return;
+      } else {
+        mutate(state.email);
+        setState((state) => {
+          return {
+            ...state,
+            error: "",
+            success: "Successfully added backup email",
+            loading: false,
+          };
+        });
+      }
+    } catch (error) {
       setState((state) => {
-        return { ...state, error: responseJSON.error, loading: false };
-      });
-      return;
-    } else {
-      mutate(state.email);
-      setState((state) => {
-        return {
-          ...state,
-          error: "",
-          success: "Successfully added backup email",
-          loading: false,
-        };
+        return { ...state, error: error.message, loading: false };
       });
     }
   }
