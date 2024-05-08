@@ -21,6 +21,7 @@ export default function Modal({
       ref.current.style.display = "block";
 
       setTimeout(() => {
+        if (!ref.current) return;
         ref.current.classList.add("show");
       }, 200);
 
