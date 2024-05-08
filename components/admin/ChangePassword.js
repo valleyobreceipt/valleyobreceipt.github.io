@@ -99,7 +99,7 @@ export default function ChangePassword() {
               disabled={state.loading}
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Enter Current Password"
               spellCheck="false"
             />
@@ -118,7 +118,7 @@ export default function ChangePassword() {
               disabled={state.loading}
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Enter New Password"
               spellCheck="false"
             />
@@ -137,7 +137,7 @@ export default function ChangePassword() {
               disabled={state.loading}
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Enter Confirm Password"
               spellCheck="false"
             />

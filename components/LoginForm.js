@@ -94,7 +94,7 @@ export default function LoginForm({ type = "admin" }) {
               id="username"
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Username"
             />
           </div>
@@ -112,7 +112,7 @@ export default function LoginForm({ type = "admin" }) {
               id="password"
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Password"
             />
           </div>

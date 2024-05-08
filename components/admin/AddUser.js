@@ -82,7 +82,7 @@ export default function AddUser() {
               disabled={state.loading}
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Enter Email"
               spellCheck="false"
             />
@@ -97,7 +97,7 @@ export default function AddUser() {
               disabled={state.loading}
               className="form-control"
               autoComplete="off"
-              required=""
+              required
               placeholder="Enter Password"
               spellCheck="false"
             />
@@ -106,7 +106,7 @@ export default function AddUser() {
             <label>History</label>
             <select
               name=""
-              required=""
+              required
               value={state.history}
               onChange={(e) => setState({ ...state, history: e.target.value })}
               disabled={state.loading}

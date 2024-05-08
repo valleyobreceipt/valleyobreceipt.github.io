@@ -87,7 +87,6 @@ export default function BackUp() {
                 disabled={state.loading || error}
                 className="form-control"
                 autoComplete="off"
-                required=""
                 placeholder="Enter Backup Email"
                 spellCheck="false"
               />
