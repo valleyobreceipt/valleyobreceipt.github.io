@@ -3,7 +3,7 @@
 import Loading from "@/components/Loading";
 import Modal from "@/components/ui/Modal";
 import gasFetch, { useGASFetch } from "@/gasFetch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BackUp() {
   const { data, isLoading, error, mutate } = useGASFetch(
@@ -16,6 +16,12 @@ export default function BackUp() {
     error: "",
     success: "",
   });
+
+  useEffect(() => {
+    setState((state) => {
+      return { ...state, email: data || "" };
+    });
+  }, [data]);
 
   async function handleSubmit(e) {
     e.preventDefault();
