@@ -15,7 +15,7 @@ export default function AuthWrapper({ type, children }) {
   if (pathname.includes("login") || pathname.includes("forget-password"))
     return <SWRConfig>{children}</SWRConfig>;
 
-  console.log(isAuthorized);
+  // console.log(isAuthorized);
 
   if (isLoading) return <Loading>{children}</Loading>;
 

@@ -9,6 +9,8 @@ export default function Search() {
   const search = useSearchParams();
   const navigate = useRouter();
 
+  let uid = search.get("uid") || "";
+
   let sort = search.get("sort") || "desc";
   let reverseSort = sort == "asc" ? "desc" : "asc";
 
@@ -21,7 +23,7 @@ export default function Search() {
 
   function handleSearch(e) {
     e.preventDefault();
-    navigate.push(`${path}?q=${searchValue}`);
+    navigate.push(`${path}?q=${searchValue}${uid ? `&uid=${uid}` : ""}`);
   }
 
   return (

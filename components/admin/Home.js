@@ -2,14 +2,18 @@
 
 import Loading from "@/components/Loading";
 import Header from "@/components/admin/Header";
-import { useGASFetch } from "@/gasFetch";
-import Link from "next/link";
-
+import Modal from "@/components/ui/Modal";
 import Pagination from "@/components/ui/Pagination";
+import gasFetch, { useGASFetch } from "@/gasFetch";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export default function Home() {
-  const { data, isLoading, error } = useGASFetch("/admin/get-users", {});
+  const { data, isLoading, error, mutate } = useGASFetch(
+    "/admin/get-users",
+    {}
+  );
 
   let search = useSearchParams();
 
@@ -42,6 +46,44 @@ export default function Home() {
 
   let finalData =
     finalData_?.slice((page - 1) * perPage, page * perPage) || null;
+
+  let [state, setState] = useState({
+    isOpen: false,
+    confirmShow: false,
+    isLoading: false,
+    error: "",
+    isSucess: false,
+    title: "Are you sure you want to delete all history?",
+    payload: {},
+  });
+
+  async function deleteHandler() {
+    setState((state) => {
+      return { ...state, isLoading: true, error: "", isSucess: false };
+    });
+
+    let response = await gasFetch("/admin/delete-history", state.payload);
+
+    let responseJSON = await response.json();
+
+    if (responseJSON.error) {
+      setState((state) => {
+        return { ...state, error: responseJSON.error, isLoading: false };
+      });
+      return;
+    } else {
+      mutate();
+      setState((state) => {
+        return {
+          ...state,
+          isOpen: false,
+          isLoading: false,
+          isSucess: true,
+          confirmShow: false,
+        };
+      });
+    }
+  }
 
   return (
     <section id="wrapper">
@@ -92,7 +134,9 @@ export default function Home() {
                                 })}
                               </td>
                               <td>
-                                <Link href={`/admin/history/users?uid=${id}`}>
+                                <Link
+                                  href={`/admin/history/users?uid=${email}`}
+                                >
                                   <button className="tb-btn delete">
                                     <span className="icon">
                                       <img
@@ -104,16 +148,31 @@ export default function Home() {
                                 </Link>
                               </td>
                               <td>
-                                <Link href={`/admin/delete-user/?uid=${id}`}>
-                                  <button className="tb-btn delete">
-                                    <span className="icon">
-                                      <img
-                                        src="/asset/img/Icon-feather-trash.png"
-                                        alt="Trash"
-                                      />
-                                    </span>
-                                  </button>
-                                </Link>
+                                <button
+                                  onClick={() => {
+                                    setState((state) => {
+                                      return {
+                                        ...state,
+                                        confirmShow: true,
+                                        isOpen: true,
+                                        payload: {
+                                          uid: email,
+                                          deleteAll: true,
+                                          isPermanent: true,
+                                        },
+                                        title: `Are you sure you want to delete ${email}?`,
+                                      };
+                                    });
+                                  }}
+                                  className="tb-btn delete"
+                                >
+                                  <span className="icon">
+                                    <img
+                                      src="/asset/img/Icon-feather-trash.png"
+                                      alt="Trash"
+                                    />
+                                  </span>
+                                </button>
                               </td>
                             </tr>
                           );
@@ -135,6 +194,63 @@ export default function Home() {
         </section>
         {/* common-sec */}
       </main>
+
+      {!state.isLoading && state.confirmShow && (
+        <Modal
+          opened={state.isOpen}
+          onClose={() => {
+            setState((state) => {
+              return { ...state, isOpen: false };
+            });
+
+            setTimeout(() => {
+              setState((state) => {
+                return { ...state, confirmShow: false };
+              });
+            }, 500);
+          }}
+        >
+          <h3 className="text-center">{state.title}</h3>
+
+          {state.error && <p className="inline-status error">{state.error}</p>}
+
+          <div className="d-flex justify-content-end mt-4">
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                setState((state) => {
+                  return { ...state, isOpen: false };
+                });
+              }}
+            >
+              Close
+            </button>
+            <button className="btn btn-danger ml-4" onClick={deleteHandler}>
+              Cormfirm
+            </button>
+          </div>
+        </Modal>
+      )}
+
+      {state.isSucess && (
+        <Modal
+          opened
+          onClose={() => {
+            setState((state) => {
+              return { ...state, isSucess: false };
+            });
+          }}
+        >
+          <div className="text-center">
+            <div className="img mb-4">
+              <img src="/asset/img/verified.png" alt="Success" />
+            </div>
+            <h3 className="modal-title text-center">Successfully deleted!</h3>
+          </div>
+        </Modal>
+      )}
+
+      {state.isLoading && <Loading />}
     </section>
   );
 }
