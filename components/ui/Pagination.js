@@ -8,7 +8,7 @@ export default function Pagination({
   totalEntries = 0,
   perPage = 50,
 }) {
-  let totalPages = Math.ceil(totalEntries / perPage);
+  let totalPages = Math.ceil(totalEntries / perPage) || 1;
 
   let currentSearchParam = useSearchParams();
   let searchParam = new URLSearchParams(currentSearchParam.toString());
