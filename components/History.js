@@ -17,7 +17,7 @@ export default function History({ type = "admin" }) {
   let query = search.get("q") || "";
   let sort = search.get("sort") || "desc";
 
-  const { data, isLoading, error, mutate } = useGASFetch(
+  const { data, isLoading, error, mutate, isValidating } = useGASFetch(
     `/${type}/get-history`,
     {
       uid,
@@ -99,6 +99,8 @@ export default function History({ type = "admin" }) {
           <div className="container-fluid">
             <div className="user-backup-table-wrapp">
               {isLoading && <Loading />}
+
+              {type !== "admin" && isValidating && <Loading />}
 
               {error && !isLoading && <p>{error}</p>}
               {finalData && (

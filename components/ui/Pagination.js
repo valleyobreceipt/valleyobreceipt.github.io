@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function Pagination({
   currentPage = 1,
-  totalEntries = 1000,
+  totalEntries = 0,
   perPage = 50,
 }) {
   let totalPages = Math.ceil(totalEntries / perPage);
