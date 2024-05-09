@@ -194,7 +194,7 @@ export default function Home() {
         receiptID: `#${receiptID}${state.receivedBy}`,
         date: state.date,
         receivedBy: state.receivedBy,
-        amount: `$${state.amount}`,
+        amount: `${state.amount}`,
         paymentMethod: `${state.paymentMethod}${
           state.paymentMethod != "Cash" ? ` #${state.lastFourDigit}` : ""
         }`,
@@ -515,6 +515,16 @@ export default function Home() {
                           />
                         )}
                       </div>
+                      {state.error && (
+                        <p className="inline-status error mt-0 mb-4">
+                          {state.error}
+                        </p>
+                      )}
+                      {state.success && (
+                        <p className="inline-status success mt-0 mb-4">
+                          {state.success}
+                        </p>
+                      )}
                       <button
                         disabled={state.loading}
                         type="submit"
@@ -522,12 +532,6 @@ export default function Home() {
                       >
                         {state.loading ? "Submitting..." : "Submit"}
                       </button>
-                      {state.error && (
-                        <p className="inline-status error">{state.error}</p>
-                      )}
-                      {state.success && (
-                        <p className="inline-status success">{state.success}</p>
-                      )}
                     </div>
                   </div>
                   {/* col */}
