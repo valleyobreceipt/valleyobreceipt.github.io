@@ -1,13 +1,4 @@
-import {
-  PDFDocument,
-  PDFName,
-  PDFString,
-  PageSizes,
-  StandardFonts,
-  rgb,
-} from "pdf-lib";
-
-import { ReceiptPDFTemplate as json } from "./info.js";
+import { PDFDocument, PDFString } from "pdf-lib";
 
 const createPageLinkAnnotation = (page, uri, rect) => {
   return page.doc.context.register(
@@ -34,83 +25,100 @@ async function createReceipt({
   paymentMethod,
   files = [],
 }) {
-  const pdfDoc = await PDFDocument.create();
-  const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const helveticaFontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const formPdfBytes = await fetch("/Receipt.pdf").then((res) =>
+    res.arrayBuffer()
+  );
 
-  const newPage = await pdfDoc.addPage(PageSizes.Letter);
+  const pdfDoc = await PDFDocument.load(formPdfBytes);
+  let page = pdfDoc.getPage(0);
+  const form = await pdfDoc.getForm();
 
-  const items = json.items;
+  let receiptIDFeild = form.getTextField("data2");
+  let dateField = form.getTextField("data");
+  let amountField = form.getTextField("Amount");
+  let nameField = form.getTextField("Name");
+  let checkField = form.getTextField("Check");
+  let creditCardField = form.getTextField("Credit Card");
 
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    const text = item.str;
-    const x = item.transform[4];
-    const y = item.transform[5];
-    const fontSize = item.transform[0];
+  receiptIDFeild.setText(receiptID);
+  let date_ = new Date(date);
+  dateField.setText(
+    `${date_.getMonth() + 1}/${date_.getDate()}/${date_.getFullYear()}`
+  );
+  nameField.setText(receivedBy);
+  amountField.setText(amount);
 
-    let finalText = text
-      .replace("{receiptID}", receiptID)
-      .replace("{date}", date)
-      .replace("{receivedBy}", receivedBy)
-      .replace("{amount}", amount)
-      .replace("{paymentMethod}", paymentMethod);
-
-    let font = helveticaFont;
-    let color = rgb(0, 0, 0);
-
-    if (
-      text == "Valley OBGYN Medical Group Inc." ||
-      text == "ValleyOBcare.com" ||
-      text == "RECEIPT" ||
-      text == "Thank You"
-    ) {
-      font = helveticaFontBold;
-      let hexToRgb = (hex) =>
-        hex
-          .replace(
-            /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-            (m, r, g, b) => "#" + r + r + g + g + b + b
-          )
-          .substring(1)
-          .match(/.{2}/g)
-          .map((x) => parseInt(x, 16));
-
-      // color must 0-1
-
-      color = rgb(...hexToRgb("#1f4e79").map((x) => x / 255));
-    }
-
-    let currentWidth = font.widthOfTextAtSize(finalText, fontSize);
-    const width_ = font.widthOfTextAtSize(text, fontSize);
-    const height_ = font.heightAtSize(fontSize);
-    let finalX = x;
-
-    if (currentWidth > width_) {
-      finalX = x - (currentWidth - width_);
-    }
-
-    if (currentWidth < width_) {
-      finalX = x + (width_ - currentWidth);
-    }
-
-    newPage.drawText(finalText, {
-      x: finalX,
-      y: y,
-      size: fontSize,
-      font: font,
-      color,
-    });
-
-    if (text == "ValleyOBcare.com") {
-      const link = createPageLinkAnnotation(
-        newPage,
-        "https://valleyobcare.com/",
-        [x, y - 4, x + currentWidth, y + height_ + 2]
-      );
-      newPage.node.set(PDFName.of("Annots"), pdfDoc.context.obj([link]));
-    }
+  if (paymentMethod.includes("Card")) {
+    creditCardField.setText(paymentMethod.replace("Card #", ""));
   }
+
+  if (paymentMethod.includes("Check")) {
+    checkField.setText(paymentMethod.replace("Check #", ""));
+  }
+
+  receiptIDFeild.enableReadOnly();
+  dateField.enableReadOnly();
+  amountField.enableReadOnly();
+  nameField.enableReadOnly();
+  checkField.enableReadOnly();
+  creditCardField.enableReadOnly();
+
+  let paymentType = "Cash";
+
+  if (paymentMethod.includes("Card")) {
+    paymentType = "Card";
+  }
+
+  if (paymentMethod.includes("Check")) {
+    paymentType = "Check";
+  }
+
+  let items = [
+    {
+      str: "Cash",
+      dir: "ltr",
+      width: 26.412,
+      height: 12,
+      transform: [12, 0, 0, 12, 144.02, 370.87],
+      fontName: "g_d1_f1",
+      hasEOL: false,
+    },
+    {
+      str: "Check",
+      dir: "ltr",
+      width: 33.132000000000005,
+      height: 12,
+      transform: [12, 0, 0, 12, 144.02, 349.49],
+      fontName: "g_d1_f1",
+      hasEOL: false,
+    },
+    {
+      str: "Credit/Debit Card",
+      dir: "ltr",
+      width: 96.22800000000001,
+      height: 12,
+      transform: [12, 0, 0, 12, 144.02, 328.13],
+      fontName: "g_d1_f1",
+      hasEOL: false,
+    },
+  ];
+
+  items.forEach((item) => {
+    if (item.str.includes(paymentType)) return;
+
+    page.drawLine({
+      start: {
+        x: item.transform[4],
+        y: item.transform[5],
+      },
+      end: {
+        x: item.transform[4] + item.width,
+        y: item.transform[5] + item.height / 2,
+      },
+      thickness: 0.75,
+      opacity: 0.75,
+    });
+  });
 
   for (let i = 0; i < files.length; i++) {
     const { type, bytes, imgType } = files[i];
@@ -136,6 +144,13 @@ async function createReceipt({
       copiedPages.forEach((page) => pdfDoc.addPage(page));
     }
   }
+
+  pdfDoc.setAuthor("ValleyOb Gyn");
+  pdfDoc.setSubject("Receipt");
+  pdfDoc.setTitle(`Receipt ${receiptID}`);
+  pdfDoc.setProducer("ValleyOb Gyn");
+  pdfDoc.setCreator("ValleyOb Gyn");
+  pdfDoc.setCreationDate(new Date());
 
   return await pdfDoc.saveAsBase64({ dataUri: true });
 }
