@@ -49,7 +49,7 @@ async function createReceipt({
   amountField.setText(amount);
 
   if (paymentMethod.includes("Card")) {
-    creditCardField.setText(paymentMethod.replace("Card #", ""));
+    creditCardField.setText(paymentMethod.replace("Debit/Credit Card #", ""));
   }
 
   if (paymentMethod.includes("Check")) {
