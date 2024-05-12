@@ -33,12 +33,12 @@ async function createReceipt({
   let page = pdfDoc.getPage(0);
   const form = await pdfDoc.getForm();
 
-  let receiptIDFeild = form.getTextField("data2");
+  let receiptIDFeild = form.getTextField("Card");
   let dateField = form.getTextField("data");
   let amountField = form.getTextField("Amount");
-  let nameField = form.getTextField("Name");
+  let nameField = form.getTextField("Received From");
   let checkField = form.getTextField("Check");
-  let creditCardField = form.getTextField("Credit Card");
+  let creditCardField = form.getTextField("Receipt ID");
 
   receiptIDFeild.setText(receiptID);
   let date_ = new Date(date);
@@ -77,29 +77,29 @@ async function createReceipt({
     {
       str: "Cash",
       dir: "ltr",
-      width: 26.412,
+      width: 26.454,
       height: 12,
-      transform: [12, 0, 0, 12, 144.02, 370.87],
-      fontName: "g_d1_f1",
-      hasEOL: false,
+      transform: [12, 0, 0, 12, 179.976, 370.9799999999999],
+      fontName: "g_d2_f1",
+      hasEOL: true,
     },
     {
       str: "Check",
       dir: "ltr",
-      width: 33.132000000000005,
+      width: 33.07920000000001,
       height: 12,
-      transform: [12, 0, 0, 12, 144.02, 349.49],
-      fontName: "g_d1_f1",
-      hasEOL: false,
+      transform: [12, 0, 0, 12, 179.976, 349.6199999999999],
+      fontName: "g_d2_f1",
+      hasEOL: true,
     },
     {
       str: "Credit/Debit Card",
       dir: "ltr",
-      width: 96.22800000000001,
+      width: 96.18,
       height: 12,
-      transform: [12, 0, 0, 12, 144.02, 328.13],
-      fontName: "g_d1_f1",
-      hasEOL: false,
+      transform: [12, 0, 0, 12, 180, 328.1999999999999],
+      fontName: "g_d2_f1",
+      hasEOL: true,
     },
   ];
 
