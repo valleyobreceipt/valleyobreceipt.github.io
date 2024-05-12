@@ -171,29 +171,19 @@ export default function Home() {
         finalFiles.push({ type, bytes, imgType });
       }
 
-      let receiptID = state.receiptID;
-
-      if (!receiptID) {
-        let receiptIdReq = await gasFetch("/user/get-receipt-id");
-        let receiptIDJSON = await receiptIdReq.json();
-
-        if (receiptIDJSON.status) {
-          receiptID = receiptIDJSON.data;
-          setState((state) => {
-            return {
-              ...state,
-              receiptID,
-            };
-          });
-        } else {
-          throw new Error("Error getting receipt ID");
-        }
-      }
+      let now = new Date();
+      let receiptID = `${(now.getMonth() + 1).toString().padStart(2, "0")}${now
+        .getDate()
+        .toString()
+        .padStart(2, "0")}${now.getFullYear().toString().substr(2, 2)}${now
+        .getHours()
+        .toString()
+        .padStart(2, "0")}${now.getMinutes().toString().padStart(2, "0")}`;
 
       let receiptPdfBase64 = await createReceipt({
-        receiptID: `#${receiptID}${state.receivedBy}`,
+        receiptID: `${receiptID}${state.receivedBy.toUpperCase()}`,
         date: state.date,
-        receivedBy: state.receivedBy,
+        receivedBy: state.name,
         amount: `${state.amount}`,
         paymentMethod: `${state.paymentMethod}${
           state.paymentMethod != "Cash" ? ` #${state.lastFourDigit}` : ""
@@ -208,7 +198,7 @@ export default function Home() {
         email: state.email,
         dob: state.dob,
         amount: state.amount,
-        receivedBy: state.receivedBy,
+        receivedBy: state.receivedBy.toLocaleUpperCase(),
         paymentMethod: state.paymentMethod,
         lastFourDigit: state.lastFourDigit,
         pdf: receiptPdfBase64,
