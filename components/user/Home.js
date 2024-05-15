@@ -1,7 +1,6 @@
 "use client";
 
 import Header from "@/components/user/Header";
-import gasFetch from "@/gasFetch";
 import createReceipt from "@/template/createReceipt";
 import { useState } from "react";
 
@@ -205,7 +204,7 @@ export default function Home() {
         .toString()
         .padStart(2, "0")}${now.getMinutes().toString().padStart(2, "0")}`;
 
-      let receiptPdfBase64 = await createReceipt({
+      let receiptPdf = await createReceipt({
         receiptID: `${receiptID}${state.receivedBy.toUpperCase()}`,
         date: state.date,
         receivedBy: state.name,
@@ -216,18 +215,49 @@ export default function Home() {
         files: finalFiles,
       });
 
-      let receiptReq = await gasFetch("/user/send-receipt", {
-        receiptID,
-        date: state.date,
-        name: state.name,
-        email: state.email,
-        dob: state.dob,
-        amount: state.amount,
-        receivedBy: state.receivedBy.toLocaleUpperCase(),
-        paymentMethod: state.paymentMethod,
-        lastFourDigit: state.lastFourDigit,
-        pdf: receiptPdfBase64,
-      });
+      // let receiptReq = await gasFetch("/user/send-receipt", {
+      //   receiptID,
+      //   date: state.date,
+      //   name: state.name,
+      //   email: state.email,
+      //   dob: state.dob,
+      //   amount: state.amount,
+      //   receivedBy: state.receivedBy.toLocaleUpperCase(),
+      //   paymentMethod: state.paymentMethod,
+      //   lastFourDigit: state.lastFourDigit,
+      //   pdf: receiptPdfBase64,
+      // });
+
+      let formData = new FormData();
+      formData.append(
+        "token",
+        JSON.parse(localStorage.getItem(`userTokenInfo`)).token
+      );
+      formData.append("receiptID", receiptID);
+      formData.append("date", state.date);
+      formData.append("name", state.name);
+      formData.append("email", state.email);
+      formData.append("dob", state.dob);
+      formData.append("amount", state.amount);
+      formData.append("receivedBy", state.receivedBy.toUpperCase());
+      formData.append("paymentMethod", state.paymentMethod);
+      formData.append("lastFourDigit", state.lastFourDigit);
+      formData.append(
+        "pdf",
+        new File(
+          [receiptPdf],
+          `Receipt #${receiptID}${state.receivedBy.toUpperCase()}`,
+          { type: "application/pdf" }
+        )
+      );
+
+      let receiptReq = await fetch(
+        "https://api.valleyobreceipt.workers.dev/send",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       let receiptJSON = await receiptReq.json();
 

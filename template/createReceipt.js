@@ -152,7 +152,7 @@ async function createReceipt({
   pdfDoc.setCreator("ValleyOb Gyn");
   pdfDoc.setCreationDate(new Date());
 
-  return await pdfDoc.saveAsBase64({ dataUri: true });
+  return await pdfDoc.save();
 }
 
 export default createReceipt;
