@@ -84,6 +84,31 @@ export default function Home() {
     }
   };
 
+  const onlyNumberInput = (e) => {
+    if (
+      e.nativeEvent.inputType == "insertText" ||
+      e.nativeEvent.inputType == "insertCompositionText"
+    ) {
+      if (!/^\d+$/.test(e.nativeEvent.data)) {
+        let start = e.nativeEvent.target.selectionStart - 1;
+        e.nativeEvent.target.value =
+          e.nativeEvent.target.value.substr(0, start) +
+          e.nativeEvent.target.value.substr(start + 1);
+        setCaretPosition(e.nativeEvent.target, start);
+      }
+    }
+
+    // if paste
+    if (e.nativeEvent.inputType == "insertFromPaste") {
+      let start = e.nativeEvent.target.selectionStart;
+      e.nativeEvent.target.value = e.nativeEvent.target.value.replace(
+        /\D/g,
+        ""
+      );
+      setCaretPosition(e.nativeEvent.target, start);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -316,6 +341,7 @@ export default function Home() {
                           onChange={(e) =>
                             setState({ ...state, amount: e.target.value })
                           }
+                          onInput={onlyNumberInput}
                           className="form-control"
                           autoComplete="off"
                           required
@@ -327,6 +353,7 @@ export default function Home() {
                         <label>Received By (Initial Only)</label>
                         <input
                           type="text"
+                          maxLength={2}
                           value={state.receivedBy}
                           onChange={(e) =>
                             setState({ ...state, receivedBy: e.target.value })
@@ -455,6 +482,8 @@ export default function Home() {
                                 lastFourDigit: e.target.value,
                               })
                             }
+                            onInput={onlyNumberInput}
+                            maxLength={4}
                             required
                             placeholder="# Last Four Digit"
                             disabled={state.loading}
@@ -499,6 +528,8 @@ export default function Home() {
                               })
                             }
                             required
+                            onInput={onlyNumberInput}
+                            maxLength={4}
                             placeholder="# Check Number"
                             disabled={state.loading}
                             autoComplete="off"
