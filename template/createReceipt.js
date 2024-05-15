@@ -80,7 +80,7 @@ async function createReceipt({
       width: 26.454,
       height: 12,
       transform: [12, 0, 0, 12, 179.976, 370.9799999999999],
-      fontName: "g_d2_f1",
+      fontName: "g_d1_f1",
       hasEOL: true,
     },
     {
@@ -89,7 +89,7 @@ async function createReceipt({
       width: 33.07920000000001,
       height: 12,
       transform: [12, 0, 0, 12, 179.976, 349.6199999999999],
-      fontName: "g_d2_f1",
+      fontName: "g_d1_f1",
       hasEOL: true,
     },
     {
@@ -98,7 +98,7 @@ async function createReceipt({
       width: 96.18,
       height: 12,
       transform: [12, 0, 0, 12, 180, 328.1999999999999],
-      fontName: "g_d2_f1",
+      fontName: "g_d1_f1",
       hasEOL: true,
     },
   ];
