@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function BackUp() {
   const { data, isLoading, error, mutate } = useGASFetch(
-    "/admin/get-backup",
+    "https://api.valleyobreceipt.workers.dev/admin/get-backup",
     {}
   );
   const [state, setState] = useState({
@@ -42,9 +42,12 @@ export default function BackUp() {
     // }
 
     try {
-      let response = await gasFetch(`/admin/set-backup`, {
-        email: state.email || "",
-      });
+      let response = await gasFetch(
+        `https://api.valleyobreceipt.workers.dev/admin/set-backup`,
+        {
+          email: state.email || "",
+        }
+      );
 
       let responseJSON = await response.json();
 

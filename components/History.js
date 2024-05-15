@@ -18,7 +18,9 @@ export default function History({ type = "admin" }) {
   let sort = search.get("sort") || "desc";
 
   const { data, isLoading, error, mutate, isValidating } = useGASFetch(
-    `/${type}/get-history`,
+    type == "user"
+      ? "https://api.valleyobreceipt.workers.dev/user/get-history"
+      : `/${type}/get-history`,
     {
       uid,
     }

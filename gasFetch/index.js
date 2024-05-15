@@ -19,7 +19,7 @@ export default function gasFetch(apiRoute, body = {}) {
     !apiRoute.includes("/verify") &&
     !apiRoute.includes("/forget-password")
   ) {
-    let type = apiRoute.split("/")[1];
+    let type = apiRoute.replace("https://", "").split("/")[1];
 
     let tokenInfo = localStorage.getItem(`${type}TokenInfo`);
 
@@ -44,6 +44,17 @@ export default function gasFetch(apiRoute, body = {}) {
     method: "POST",
     body: JSON.stringify(body),
   };
+
+  if (apiRoute.includes("https://")) {
+    options.headers = {
+      "Content-Type": "application/json",
+    };
+    options.body = JSON.stringify({
+      ...body,
+      token,
+    });
+    return fetch(apiRoute, options);
+  }
 
   return fetch(
     `${url}${token ? `&token=${token}` : ""}&route=${apiRoute}`,

@@ -246,7 +246,7 @@ export default function Home() {
         "pdf",
         new File(
           [receiptPdf],
-          `Receipt #${receiptID}${state.receivedBy.toUpperCase()}`,
+          `Receipt #${receiptID}${state.receivedBy.toUpperCase()}.pdf`,
           { type: "application/pdf" }
         )
       );
