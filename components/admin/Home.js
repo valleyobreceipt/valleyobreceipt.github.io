@@ -182,7 +182,7 @@ export default function Home() {
                   </table>
 
                   <Pagination
-                    totalEntries={finalData.length}
+                    totalEntries={finalData_.length}
                     currentPage={page}
                     perPage={perPage}
                   />
