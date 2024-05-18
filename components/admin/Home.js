@@ -219,7 +219,7 @@ export default function Home() {
               className="btn btn-secondary"
               onClick={() => {
                 setState((state) => {
-                  return { ...state, isOpen: false };
+                  return { ...state, isOpen: false, confirmShow: false };
                 });
               }}
             >
