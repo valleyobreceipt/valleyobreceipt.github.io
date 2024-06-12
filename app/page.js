@@ -89,7 +89,7 @@ export default function Home() {
         return {
           ...state,
           loading: false,
-          error: resposneJson.error,
+          error: resposneJson.error.split(". (")[0],
         };
       });
     }
